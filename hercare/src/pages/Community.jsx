@@ -30,14 +30,18 @@ export default function CommunityPage() {
       <style>{FONT_STYLE}</style>
 
       {/* --- TOP NAVBAR --- */}
-      <header className="bg-white px-6 py-4 flex items-center justify-between shadow-sm-soft sticky top-0 z-50">
-        <div className="flex items-center gap-2">
-          <div className="w-[34px] h-[34px] rounded-[10px] grad-bg flex items-center justify-center text-white text-base shadow-soft">
-            ✿
-          </div>
-          <span className="font-display font-semibold text-xl brand-grad-text">HerWellness</span>
-        </div>
-
+     <header className="bg-white px-6 py-4 flex items-center justify-between shadow-sm-soft sticky top-0 z-50">
+  <div className="flex items-center gap-3">
+    {/* --- Naya Logo Section --- */}
+    <div className="w-[54px] h-[54px] rounded-full overflow-hidden border border-pink-100 shadow-sm flex-shrink-0">
+      <img 
+        src="/assets/logo.jpg" 
+        alt="HerWellness Logo" 
+        className="w-full h-full object-cover"
+      />
+    </div>
+    <span className="font-display font-semibold text-xl brand-grad-text">HerWellness</span>
+  </div>
         <div className="flex-1 max-w-xl px-8 hidden md:block">
           <div className="relative">
             <input
@@ -59,8 +63,8 @@ export default function CommunityPage() {
           {/* USER AVATAR PLACEHOLDER */}
           <div className="w-9 h-9 rounded-full bg-pink-100 overflow-hidden cursor-pointer border-2 border-transparent hover:border-pink-400 transition flex items-center justify-center text-pink-500 font-bold">
             {/* IMAGE GOES HERE */}
-            <img src="" alt="User" className="w-full h-full object-cover hidden" />
-            N
+            <img src="/assets/doctor.jpg" alt="User" className="w-full h-full object-cover hidden" />
+            
           </div>
         </div>
       </header>
@@ -133,9 +137,15 @@ export default function CommunityPage() {
               </p>
             </div>
             {/* ILLUSTRATION PLACEHOLDER */}
-            <div className="absolute right-0 bottom-0 top-0 w-[40%] bg-pink-100/50 flex items-center justify-center text-[12px] text-pink-400 font-bold">
-               [ Add Girl Illustration Here ]
-            </div>
+           {/* USER AVATAR PLACEHOLDER */}
+<div className="w-24 h-24 bg-pink-100 overflow-hidden cursor-pointer border-2 border-transparent hover:border-pink-400 transition flex items-center justify-center text-pink-500 font-bold">
+  {/* Yahan se 'rounded-full' aur 'hidden' dono hata diye */}
+  <img 
+    src="/assets/doctor.jpg" 
+    alt="User" 
+    className="w-full h-full object-cover" 
+  />
+</div>
           </div>
 
           {/* Topic Filters */}

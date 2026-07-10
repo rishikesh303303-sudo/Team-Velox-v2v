@@ -187,14 +187,13 @@ export default function App() {
       <style>{FONT_STYLE}</style>
 
       <div className="max-w-[640px] mx-auto px-5 pt-10 pb-16 min-h-screen flex flex-col">
-        {/* Brand */}
-        <div className="flex items-center gap-2 justify-center mb-7">
-          <div className="w-[34px] h-[34px] rounded-[10px] grad-bg flex items-center justify-center text-white text-base shadow-soft">
-            ✿
-          </div>
-          <span className="font-display font-semibold text-xl brand-grad-text">HerWellness</span>
-        </div>
-
+       <div className="flex justify-center mb-8 mt-2">
+  <img
+    src="/assets/logo.jpg" 
+    alt="HerWellness Profile"
+    className="w-[140px] h-[140px] object-cover rounded-full shadow-soft-lg border-4 border-white"
+  />
+</div>
         {/* Stage */}
         <div className="relative flex-1 min-h-[620px]">
           <StepCard visible={stepName === "welcome"} animClass={animClass}>

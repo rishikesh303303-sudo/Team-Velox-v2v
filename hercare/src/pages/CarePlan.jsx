@@ -156,12 +156,13 @@ export default function CarePlan() {
           >
             ←
           </button>
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-[10px] grad-bg flex items-center justify-center text-white text-base shadow-soft">
-              ✿
-            </div>
-            <span className="font-display font-semibold text-xl brand-grad-text">HerWellness</span>
-          </div>
+         <div className="flex justify-center mb-8 mt-2">
+  <img
+    src="/assets/logo.jpg" 
+    alt="HerWellness Profile"
+    className="w-[140px] h-[140px] object-cover rounded-full shadow-soft-lg border-4 border-white"
+  />
+</div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => navigate("/dashboard")}

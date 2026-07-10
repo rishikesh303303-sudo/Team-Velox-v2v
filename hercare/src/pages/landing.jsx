@@ -328,14 +328,15 @@ const LandingPage = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 1 }}
               /> */}
-          <motion.div
-            className="relative w-[320px] h-[380px] z-10 rounded-[50%_50%_45%_45%/55%_55%_45%_45%] border border-dashed border-white/20 flex items-center justify-center text-center text-gray-500 text-sm px-6"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            Apni image yahan lagao
-          </motion.div>
+         <motion.img
+    src="/assets/landing.jpg" // Agar Step 2 mein import kiya hai, to ye variable use karein
+    // src="/hero-image.png" // Agar image 'public' folder mein hai, to direct path dein
+    alt="Hormonal wellness support"
+    className="relative w-[320px] h-[380px] z-10 rounded-[50%_50%_45%_45%/55%_55%_45%_45%] object-cover shadow-2xl shadow-purple-500/20"
+    initial={{ scale: 0.8, opacity: 0 }}
+    animate={{ scale: 1, opacity: 1 }}
+    transition={{ duration: 1, ease: "easeOut" }}
+  />
 
           <motion.div
             animate={{ y: [0, -10, 0] }}

@@ -93,16 +93,15 @@ export default function LoginPage() {
                 alt="hero"
                 className="w-full max-w-sm rounded-full mx-auto"
               /> */}
-          <motion.div
-            variants={fadeUp}
-            className="relative w-full max-w-sm aspect-[4/5] mx-auto mb-10 rounded-[45%_55%_50%_50%/55%_50%_50%_45%] border border-dashed border-white/20 flex items-center justify-center text-center text-gray-500 text-base px-6"
-            style={{
-              background:
-                "radial-gradient(circle at 50% 45%, rgba(217,70,160,0.15), transparent 65%)",
-            }}
-          >
-            Apni image yahan lagao
-          </motion.div>
+          <motion.img
+  variants={fadeUp}
+  src="/assets/login.jpg" 
+  alt="Wellness journey"
+  className="w-full max-w-sm aspect-[4/5] mx-auto mb-10 rounded-[45%_55%_50%_50%/55%_50%_50%_45%] object-cover border border-white/10 shadow-2xl shadow-pink-500/20"
+  initial={{ scale: 0.8, opacity: 0 }}
+  animate={{ scale: 1, opacity: 1 }}
+  transition={{ duration: 1 }}
+/>
 
           {/* Why HerWellness */}
           <motion.div

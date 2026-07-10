@@ -12,37 +12,37 @@ const doctors = [
     id: 1, name: "Dr. Priya Sharma", specialty: "Gynecologist", category: "gynecologist",
     qualification: "MBBS, DGO", experience: "12+ years experience",
     languages: "English, Hindi", slotDate: "July 12, 2026", slotTime: "11:00 AM",
-    img: "/doctors/priya-sharma.png",
+    img: "/assets/doctor.jpg",
   },
   {
     id: 2, name: "Dr. Ananya Verma", specialty: "Gynecologist", category: "gynecologist",
     qualification: "MBBS, MS (OBG)", experience: "9+ years experience",
     languages: "English, Hindi, Punjabi", slotDate: "July 12, 2026", slotTime: "02:00 PM",
-    img: "/doctors/ananya-verma.png",
+    img: "/assets/doctor1.jpg",
   },
   {
     id: 3, name: "Dr. Neha Batra", specialty: "Endocrinologist", category: "endocrinologist",
     qualification: "MD (Endocrinology)", experience: "10+ years experience",
     languages: "English, Hindi", slotDate: "July 15, 2026", slotTime: "10:30 AM",
-    img: "/doctors/neha-batra.png",
+    img: "/assets/doctor2.jpg",
   },
   {
     id: 4, name: "Dr. Ritu Malhotra", specialty: "Endocrinologist", category: "endocrinologist",
     qualification: "DM (Endocrinology)", experience: "14+ years experience",
     languages: "English, Hindi, Gujarati", slotDate: "July 15, 2026", slotTime: "03:30 PM",
-    img: "/doctors/ritu-malhotra.png",
+    img: "/assets/doctor3.jpg",
   },
   {
     id: 5, name: "Ms. Kavya Mehra", specialty: "Counselor", category: "counselor",
     qualification: "MA Psychology", experience: "7+ years experience",
     languages: "English, Hindi", slotDate: "July 18, 2026", slotTime: "11:00 AM",
-    img: "/doctors/kavya-mehra.png",
+    img: "/assets/doctor4.jpg",
   },
   {
     id: 6, name: "Ms. Simran Kaur", specialty: "Counselor", category: "counselor",
     qualification: "MA Psychology", experience: "6+ years experience",
     languages: "English, Hindi, Punjabi", slotDate: "July 18, 2026", slotTime: "04:00 PM",
-    img: "/doctors/simran-kaur.png",
+    img: "/assets/doctor2.jpg",
   },
 ];
 
@@ -135,17 +135,27 @@ export default function Doctors() {
   return (
     <div className="min-h-screen bg-pink-50 font-sans text-purple-950 pb-10">
       {/* Top bar */}
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12 pt-6 pb-2">
-        <div className="font-serif font-semibold text-xl text-purple-900 flex items-center gap-1.5">
-          🌸 HerWellness
-        </div>
-      </div>
+     <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12 pt-6 pb-2 flex items-center justify-between">
+  {/* Left side: Your Logo in a circle */}
+  <div className="flex items-center gap-3">
+    <div className="w-10 h-10 rounded-full overflow-hidden border border-pink-200 shadow-sm flex-shrink-0">
+      <img 
+        src="/assets/logo.jpg" // Yahan apni image ka path daalein
+        alt="HerWellness Logo" 
+        className="w-full h-full object-cover"
+      />
+    </div>
+    <span className="font-serif font-semibold text-lg text-purple-900">
+      HerCare
+    </span>
+  </div>
+</div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12">
         {/* Hero */}
         <div className="relative rounded-3xl bg-gradient-to-br from-pink-100 to-purple-100 p-6 sm:p-8 flex items-center justify-between gap-5 mb-6 mt-2 overflow-hidden flex-wrap sm:flex-nowrap">
           <img
-            src="/doctors/hero-doctor.png"
+            src="/assets/doctor.jpg"
             alt="Doctor illustration"
             className="w-36 h-36 sm:w-44 sm:h-44 object-contain flex-shrink-0"
           />
@@ -158,7 +168,7 @@ export default function Doctors() {
             </p>
           </div>
           <img
-            src="/doctors/stethoscope-icon.png"
+            src="/assets/sethoscope.jpg"
             alt=""
             aria-hidden="true"
             className="hidden md:block w-20 h-20 object-contain flex-shrink-0"

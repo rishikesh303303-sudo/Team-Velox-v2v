@@ -130,7 +130,16 @@ function SymptomTrackerView({ logs, addLog, onBack }) {
         <button onClick={onBack} className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-purple-700">
           <ArrowLeft size={20} />
         </button>
-        <div className="font-serif font-semibold text-lg text-purple-900">🌸 HerWellness</div>
+        <div className="font-serif font-semibold text-lg text-purple-900 flex items-center gap-2">
+  <div className="w-8 h-8 rounded-full overflow-hidden border border-pink-200 shadow-sm flex-shrink-0">
+    <img 
+      src="/assets/logo.jpg" 
+      alt="Logo" 
+      className="w-full h-full object-cover"
+    />
+  </div>
+  HerCare
+</div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12">
@@ -247,10 +256,10 @@ function SymptomTrackerView({ logs, addLog, onBack }) {
 
 /* ---------------- Dashboard-only data ---------------- */
 const quickActions = [
-  { icon: Stethoscope, title: "Book Doctor", subtitle: "Consult experts", color: "text-purple-600", bg: "bg-purple-50" },
-  { icon: Pill, title: "Buy Supplements", subtitle: "Curated for you", color: "text-pink-500", bg: "bg-pink-50" },
-  { icon: Users, title: "Community Forum", subtitle: "Connect & share", color: "text-purple-600", bg: "bg-purple-50" },
-  { icon: Sparkles, title: "Wellness Tools", subtitle: "Guided for you", color: "text-pink-500", bg: "bg-pink-50" },
+  { icon: Stethoscope, title: "Book Doctor", subtitle: "Consult experts", color: "text-purple-600", bg: "bg-purple-50", path: "/Doctors" },
+  { icon: Pill, title: "Buy Supplements", subtitle: "Curated for you", color: "text-pink-500", bg: "bg-pink-50", path: "/supplements" },
+  { icon: Users, title: "Community Forum", subtitle: "Connect & share", color: "text-purple-600", bg: "bg-purple-50", path: "/community" },
+  { icon: Sparkles, title: "Wellness Tools", subtitle: "Guided for you", color: "text-pink-500", bg: "bg-pink-50", path: "/wellness-tools" },
 ];
 const reminders = [
   { icon: Pill, title: "Take Vitamin D", time: "Today, 9:00 AM", action: "Mark as Done", color: "text-pink-500", bg: "bg-pink-50" },
@@ -315,11 +324,21 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-pink-50 font-sans text-purple-950 pb-8">
       {/* Top bar */}
-      <div className="sticky top-0 z-20 bg-pink-50/95 backdrop-blur max-w-6xl mx-auto flex items-center px-5 sm:px-8 lg:px-12 py-4">
-        <div className="font-serif font-semibold text-lg text-purple-900 flex items-center gap-1.5">
-          🌸 HerWellness
-        </div>
-      </div>
+     <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12 pt-6 pb-2 flex items-center justify-between">
+  {/* Left side: Your Logo in a circle */}
+  <div className="flex items-center gap-3">
+    <div className="w-10 h-10 rounded-full overflow-hidden border border-pink-200 shadow-sm flex-shrink-0">
+      <img 
+        src="/assets/logo.jpg" // Yahan apni image ka path daalein
+        alt="HerWellness Logo" 
+        className="w-full h-full object-cover"
+      />
+    </div>
+    <span className="font-serif font-semibold text-lg text-purple-900">
+      HerCare
+    </span>
+  </div>
+</div>
 
       {justSaved && (
         <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12">
@@ -482,8 +501,10 @@ export default function Dashboard() {
             <span className="text-sm font-semibold text-pink-600 cursor-pointer">See All</span>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {quickActions.map(({ icon: Icon, title, subtitle, color, bg }) => (
-              <div key={title} className="bg-white rounded-2xl p-4 shadow-sm border border-pink-100 flex items-center gap-3 cursor-pointer hover:shadow-md transition">
+            {quickActions.map(({ icon: Icon, title, subtitle, color, bg, path }) => (
+              <div key={title}
+              onClick={() => navigate(path)}
+               className="bg-white rounded-2xl p-4 shadow-sm border border-pink-100 flex items-center gap-3 cursor-pointer hover:shadow-md transition">
                 <div className={`w-10 h-10 rounded-xl ${bg} ${color} flex items-center justify-center flex-shrink-0`}>
                   <Icon size={20} />
                 </div>
