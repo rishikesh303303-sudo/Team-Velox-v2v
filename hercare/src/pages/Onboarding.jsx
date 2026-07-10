@@ -764,7 +764,7 @@ function AnalyzingStep({ active, answers, onDone, onResult }) {
     let apiData = null;
     let apiFailed = false;
 
-    fetch("/api/analyze", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/analyze`,  {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ answers }),
