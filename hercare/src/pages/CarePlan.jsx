@@ -99,7 +99,7 @@ export default function CarePlan() {
       setProgress(Math.round(p));
     }, 350);
 
-    fetch("/api/care-plan", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/care-plan`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ answers, aiResult }),
