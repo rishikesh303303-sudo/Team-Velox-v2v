@@ -30,6 +30,7 @@ import Checkout from './pages/Checkout';
 import CorporateDashboard from './pages/CorporateDashboard';
 import AggregateInsights from './pages/AggregateInsights';
 import Profile from './pages/Profile';
+import LandingPage from './pages/landing';
 
 // ==========================================
 // 2. MAIN APP ROUTER
@@ -39,10 +40,12 @@ function App() {
     <Router>
       <Routes>
         {/* Core Flow */}
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/landing" element={<LandingPage />} />
 
         {/* Health & Tracking */}
         <Route path="/symptom-tracker" element={<SymptomTracker />} />
