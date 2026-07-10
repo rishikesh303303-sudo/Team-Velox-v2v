@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
  * HerWellness — Onboarding
  * React + Tailwind CSS port of the original static HTML/CSS/JS version.
  * All copy, steps, scoring logic, and animations are unchanged.
+ * UPDATED: Age select now includes an "Other (Enter manually)" option
+ * that reveals a free-text/number input for custom age entry.
  */
 
 const FONT_STYLE = `
@@ -77,6 +79,10 @@ const TASKS = [
   "Checking risk factors",
   "Generating your personalized insights",
 ];
+
+// Age options shown in the dropdown. Kept separate so we can easily check
+// whether the current answers.age value matches a preset or is custom.
+const AGE_OPTIONS = ["25 years", "30 years", "38 years", "42 years", "48 years", "55 years"];
 
 function formatDate(d) {
   if (!d) return "—";
@@ -157,7 +163,7 @@ export default function App() {
     });
   };
 
-  const step1Valid = !!answers.goal;
+  const step1Valid = !!answers.goal && !!answers.age;
   const step2Valid = !!answers.cycle;
   const step3Valid = answers.symptoms.length > 0 && !!answers.severity;
 
@@ -383,6 +389,28 @@ function TrustItem({ icon, label }) {
 /* ---------------- Step 1 ---------------- */
 
 function Step1({ answers, setAnswers, onBack, onNext, onSave, valid }) {
+  // Custom age mode is active if the current age value is non-empty
+  // but doesn't match any of the preset dropdown options.
+  const [customAge, setCustomAge] = useState(
+    !!answers.age && !AGE_OPTIONS.includes(answers.age)
+  );
+
+  const handleSelectChange = (e) => {
+    const val = e.target.value;
+    if (val === "custom") {
+      setCustomAge(true);
+      setAnswers((a) => ({ ...a, age: "" })); // clear so user types fresh
+    } else {
+      setCustomAge(false);
+      setAnswers((a) => ({ ...a, age: val }));
+    }
+  };
+
+  const handleCustomAgeChange = (e) => {
+    const num = e.target.value;
+    setAnswers((a) => ({ ...a, age: num ? `${num} years` : "" }));
+  };
+
   return (
     <>
       <StepHeader step={1} total={5} pct={20} onBack={onBack} />
@@ -392,18 +420,32 @@ function Step1({ answers, setAnswers, onBack, onNext, onSave, valid }) {
 
       <label className="text-[13.5px] font-bold mb-2 block">What is your age?</label>
       <select
-        value={answers.age}
-        onChange={(e) => setAnswers((a) => ({ ...a, age: e.target.value }))}
-        className="w-full py-[13px] px-3.5 rounded-2xl border-[1.5px] border-[#f0e0ea] text-[14.5px] bg-white outline-none mb-5 focus:border-pink-500 focus:ring-4 focus:ring-pink-500/10"
+        value={customAge ? "custom" : answers.age}
+        onChange={handleSelectChange}
+        className="w-full py-[13px] px-3.5 rounded-2xl border-[1.5px] border-[#f0e0ea] text-[14.5px] bg-white outline-none mb-3 focus:border-pink-500 focus:ring-4 focus:ring-pink-500/10"
       >
         <option value="">Select your age</option>
-        <option>25 years</option>
-        <option>30 years</option>
-        <option>38 years</option>
-        <option>42 years</option>
-        <option>48 years</option>
-        <option>55 years</option>
+        {AGE_OPTIONS.map((opt) => (
+          <option key={opt}>{opt}</option>
+        ))}
+        <option value="custom">Other (Enter manually)</option>
       </select>
+
+      {customAge && (
+        <input
+          type="number"
+          inputMode="numeric"
+          placeholder="Enter your age"
+          min="10"
+          max="100"
+          value={answers.age.replace(" years", "")}
+          onChange={handleCustomAgeChange}
+          className="w-full py-[13px] px-3.5 rounded-2xl border-[1.5px] border-[#f0e0ea] text-[14.5px] bg-white outline-none mb-5 focus:border-pink-500 focus:ring-4 focus:ring-pink-500/10"
+          autoFocus
+        />
+      )}
+
+      {!customAge && <div className="mb-2" />}
 
       <label className="text-[13.5px] font-bold mb-2 block">What is your primary goal today?</label>
       {GOAL_OPTIONS.map((opt) => {

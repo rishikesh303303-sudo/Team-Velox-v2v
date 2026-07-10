@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -35,6 +36,7 @@ const whyItems = [
 ];
 
 export default function LoginPage() {
+   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -215,6 +217,7 @@ export default function LoginPage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
+                 onClick={() => navigate("/onboarding")}
                 className="w-full py-3.5 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 font-semibold flex items-center justify-center gap-2 shadow-lg shadow-pink-500/30"
               >
                 Log In <span>→</span>

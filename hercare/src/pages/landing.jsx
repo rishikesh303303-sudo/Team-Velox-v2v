@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -212,6 +213,7 @@ const trust = [
 ];
 
 const LandingPage = () => {
+   const navigate = useNavigate(); 
   return (
     <div className="bg-[#060509] text-white overflow-hidden relative min-h-screen" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
       {/* 🔽 This loads "Playfair Display" — the elegant serif font from the
@@ -254,11 +256,14 @@ const LandingPage = () => {
         </div>
 
         <div className="flex gap-3">
-          <button className="px-4 py-2 border border-gray-600 rounded-full text-sm">
+          <button
+          onClick={() => navigate("/login")} 
+           className="px-4 py-2 border border-gray-600 rounded-full text-sm">
             Log In
           </button>
           <motion.button
             whileHover={{ scale: 1.05 }}
+            onClick={() => navigate("/login")}
             className="px-5 py-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full shadow-lg shadow-pink-500/30 text-sm"
           >
             Start Assessment
@@ -286,6 +291,7 @@ const LandingPage = () => {
           <motion.button
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => navigate("/login")}
             className="mt-8 px-7 py-3 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full shadow-lg shadow-pink-500/30"
           >
             Start Your Assessment →
@@ -533,6 +539,7 @@ const LandingPage = () => {
 
         <motion.button
           whileHover={{ scale: 1.1 }}
+          onClick={() => navigate("/login")}
           className="px-6 py-3 bg-white text-purple-700 rounded-full font-semibold whitespace-nowrap"
         >
           Start Your Assessment →
