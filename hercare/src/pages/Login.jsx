@@ -68,7 +68,7 @@ export default function LoginPage() {
           <motion.div variants={fadeUp} className="flex items-center gap-2 mb-10">
             <span className="text-2xl">🪷</span>
             <span className="text-xl font-semibold">
-              Her<span className="text-pink-400">Wellness</span>
+              Her<span className="text-pink-400">Care</span>
             </span>
           </motion.div>
 
@@ -86,13 +86,7 @@ export default function LoginPage() {
             for your hormonal health journey.
           </motion.p>
 
-          {/* 🔽 PUT YOUR IMAGE HERE.
-              Replace this placeholder div with something like:
-              <motion.img
-                src="/hero-portrait.png"
-                alt="hero"
-                className="w-full max-w-sm rounded-full mx-auto"
-              /> */}
+        
           <motion.img
   variants={fadeUp}
   src="/assets/login.jpg" 
@@ -275,7 +269,7 @@ export default function LoginPage() {
                 Help Center
               </a>
             </div>
-            <p className="text-gray-600 text-xs">© 2025 HerWellness. All rights reserved.</p>
+            <p className="text-gray-600 text-xs">© 2025 HerCare. All rights reserved.</p>
           </div>
         </motion.div>
       </div>

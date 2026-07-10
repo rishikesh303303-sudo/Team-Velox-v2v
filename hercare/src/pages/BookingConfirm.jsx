@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Flower2, Check, CalendarCheck, Clock, Stethoscope, ArrowLeft, Heart, Sparkles } from "lucide-react";
 
-// Fallback placeholder photo path — replace with your own default image.
+
 const DEFAULT_DOCTOR_IMG = "/doctors/placeholder.png";
 
 function DetailRow({ icon, label, value, last }) {
@@ -31,9 +31,13 @@ export default function BookingConfirm() {
     <div className="min-h-screen bg-gradient-to-b from-pink-50 via-white to-purple-50 flex justify-center py-8 px-4">
       <div className="w-full max-w-md">
         <div className="flex items-center gap-2 mb-6">
-          <Flower2 className="w-6 h-6 text-pink-500" fill="currentColor" />
-          <span className="text-xl font-extrabold text-violet-900 tracking-tight">HerWellness</span>
-        </div>
+  <img
+    src="/assets/logo.jpg"
+    alt="HerWellness Logo"
+    className="w-14 h-14 rounded-full object-cover"
+  />
+  <span className="text-xl font-extrabold text-violet-900 tracking-tight">HerCare</span>
+</div>
 
         <div className="bg-gradient-to-b from-pink-50/60 to-white rounded-3xl border border-pink-100 p-6 sm:p-8">
           {/* success icon */}
@@ -67,7 +71,7 @@ export default function BookingConfirm() {
 
             <div className="flex items-center gap-3 pb-4 mb-1 border-b border-pink-50">
               <img
-                src={doctor.img || DEFAULT_DOCTOR_IMG}
+                src="/assets/doctor.jpg"
                 alt={doctor.name}
                 className="w-14 h-14 rounded-full object-cover border-2 border-pink-100"
               />

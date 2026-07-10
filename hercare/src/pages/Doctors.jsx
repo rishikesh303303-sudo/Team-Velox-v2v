@@ -5,8 +5,8 @@ import {
   ArrowRight, ShieldCheck,
 } from "lucide-react";
 
-/* Swap these src values with your own images — everywhere an <img> tag
-   appears below is a placeholder ready for your real photo/illustration. */
+
+
 const doctors = [
   {
     id: 1, name: "Dr. Priya Sharma", specialty: "Gynecologist", category: "gynecologist",
@@ -62,8 +62,7 @@ const specialtyStyle = {
 function DoctorCard({ doc, favorited, onToggleFavorite }) {
   const navigate = useNavigate();
 
-  // This is the hand-off: whatever we pass in `state` here is exactly what
-  // BookingConfirm.jsx reads via useLocation().state on the other side.
+ 
   const bookConsultation = () => {
     navigate("/booking-confirm", {
       state: {
@@ -140,7 +139,7 @@ export default function Doctors() {
   <div className="flex items-center gap-3">
     <div className="w-10 h-10 rounded-full overflow-hidden border border-pink-200 shadow-sm flex-shrink-0">
       <img 
-        src="/assets/logo.jpg" // Yahan apni image ka path daalein
+        src="/assets/logo.jpg" 
         alt="HerWellness Logo" 
         className="w-full h-full object-cover"
       />

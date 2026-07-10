@@ -123,7 +123,7 @@ User data:
       return res.status(500).json({ error: "Model returned invalid JSON", raw });
     }
 
-    // Safety net: force ageGroup + validate stage is actually from the allowed list
+    
     parsed.ageGroup = bracket;
     if (!allowedStages.includes(parsed.stage)) {
       parsed.stage = allowedStages[0];

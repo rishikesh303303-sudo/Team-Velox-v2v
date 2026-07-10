@@ -1,18 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-/**
- * HerWellness — Personalized Care Plan
- *
- * Expects to be navigated to with state:
- *   navigate("/care-plan", { state: { answers, aiResult } })
- * where `answers` is the onboarding answers object and `aiResult` is
- * whatever /api/analyze returned (stage, ageGroup, score, tagWord, insight).
- *
- * On mount, calls POST /api/care-plan with { answers, aiResult } and renders
- * the AI-generated categories (Dietary Adjustments, Supplements & Hydration,
- * Sleep Hygiene Routine, etc). "Get New Suggestions" re-fetches a fresh plan.
- */
+
 
 const FONT_STYLE = `
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap');
@@ -92,7 +81,7 @@ export default function CarePlan() {
     setError(null);
     setProgress(0);
 
-    // Fake progress bar while the real request runs, similar to onboarding's analyzing step
+    
     let p = 0;
     progressTimer.current = setInterval(() => {
       p = Math.min(p + Math.random() * 12, 92);
@@ -128,7 +117,7 @@ export default function CarePlan() {
     }
     fetchPlan();
     return () => clearInterval(progressTimer.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, []);
 
   const toggleItem = (catId, idx) => {

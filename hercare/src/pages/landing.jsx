@@ -216,9 +216,7 @@ const LandingPage = () => {
    const navigate = useNavigate(); 
   return (
     <div className="bg-[#060509] text-white overflow-hidden relative min-h-screen" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-      {/* 🔽 This loads "Playfair Display" — the elegant serif font from the
-          screenshot — from Google Fonts. "Lora" is loaded too, for smaller
-          body text where a full display serif looks heavy. */}
+     
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
       <link
@@ -244,7 +242,7 @@ const LandingPage = () => {
         className="relative z-10 flex justify-between items-center px-10 py-6 backdrop-blur-md border-b border-white/5"
       >
         <h1 className="text-xl font-semibold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-          HerWellness
+          HerCare
         </h1>
 
         <div className="hidden md:flex gap-8 text-sm text-gray-300">
@@ -318,19 +316,9 @@ const LandingPage = () => {
         <div className="relative flex justify-center mt-16 md:mt-0">
           <div className="absolute w-[350px] h-[350px] bg-pink-500 blur-[120px] opacity-30 rounded-full"></div>
 
-          {/* 🔽 PUT YOUR IMAGE HERE.
-              Delete this placeholder div and use, for example:
-              <motion.img
-                src="/hero.png"
-                alt="hero"
-                className="relative w-[320px] z-10 rounded-[50%_50%_45%_45%/55%_55%_45%_45%] object-cover"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 1 }}
-              /> */}
+         
          <motion.img
-    src="/assets/landing.jpg" // Agar Step 2 mein import kiya hai, to ye variable use karein
-    // src="/hero-image.png" // Agar image 'public' folder mein hai, to direct path dein
+    src="/assets/landing.jpg" 
     alt="Hormonal wellness support"
     className="relative w-[320px] h-[380px] z-10 rounded-[50%_50%_45%_45%/55%_55%_45%_45%] object-cover shadow-2xl shadow-purple-500/20"
     initial={{ scale: 0.8, opacity: 0 }}

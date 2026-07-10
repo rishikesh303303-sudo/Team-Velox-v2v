@@ -7,13 +7,12 @@ const careplanRoute = require("./routes/careplan");
 
 const app = express();
 
-// FRONTEND_URL env variable se production URL aayega,
-// saath mein local development bhi allow kar diya
+
 const allowedOrigins = [
   process.env.FRONTEND_URL,
   "http://localhost:5174",
   "http://localhost:3000"
-].filter(Boolean); // undefined/empty values hata do
+].filter(Boolean); 
 
 app.use(cors({
   origin: function (origin, callback) {

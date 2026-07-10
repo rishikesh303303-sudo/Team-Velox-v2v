@@ -131,7 +131,7 @@ function SymptomTrackerView({ logs, addLog, onBack }) {
           <ArrowLeft size={20} />
         </button>
         <div className="font-serif font-semibold text-lg text-purple-900 flex items-center gap-2">
-  <div className="w-8 h-8 rounded-full overflow-hidden border border-pink-200 shadow-sm flex-shrink-0">
+  <div className="w-10 h-10 rounded-full overflow-hidden border border-pink-200 shadow-sm flex-shrink-0">
     <img 
       src="/assets/logo.jpg" 
       alt="Logo" 
@@ -143,13 +143,17 @@ function SymptomTrackerView({ logs, addLog, onBack }) {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12">
-        <div className="rounded-3xl bg-gradient-to-br from-pink-100 to-purple-100 p-4 mb-5 mt-2">
-          <WomanIllustration />
-          <div className="text-center px-2 pt-4 pb-1">
-            <h1 className="font-serif text-2xl font-semibold text-purple-900 mb-1">Symptom Tracker</h1>
-            <p className="text-sm text-purple-700/80 leading-snug">Track your daily symptoms and understand your wellness better.</p>
-          </div>
-        </div>
+       <div className="relative rounded-3xl overflow-hidden mb-5 mt-2 h-[180px] sm:h-[200px]">
+  <img
+    src="/assets/symptom.jpg"
+    alt=""
+    className="absolute inset-0 w-full h-full object-cover"
+  />
+  <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10">
+    <h1 className="font-serif text-2xl font-semibold text-pink-900 mb-1">Symptom Tracker</h1>
+    <p className="text-sm text-pink-700/80 leading-snug max-w-xs">Track your daily symptoms and understand your wellness better.</p>
+  </div>
+</div>
 
         {/* Daily Log */}
         <div className="bg-white rounded-3xl p-6 shadow-sm border border-pink-100 mb-5">
@@ -273,7 +277,7 @@ const reminders = [
 export default function Dashboard() {
   const navigate = useNavigate(); 
   const [userName] = useState("Neha");
-  const [view, setView] = useState("dashboard"); // 'dashboard' | 'tracker'
+  const [view, setView] = useState("dashboard");
   const [logs, setLogs] = useState(loadLogs);
   const [justSaved, setJustSaved] = useState(false);
 
@@ -295,7 +299,7 @@ export default function Dashboard() {
       note: entry.notes || "—",
       time: now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }),
     };
-    setLogs((prev) => [full, ...prev]); // instantly visible to BOTH views
+    setLogs((prev) => [full, ...prev]);
     setJustSaved(true);
     setTimeout(() => setJustSaved(false), 2500);
   };
@@ -329,7 +333,7 @@ export default function Dashboard() {
   <div className="flex items-center gap-3">
     <div className="w-10 h-10 rounded-full overflow-hidden border border-pink-200 shadow-sm flex-shrink-0">
       <img 
-        src="/assets/logo.jpg" // Yahan apni image ka path daalein
+        src="/assets/logo.jpg"
         alt="HerWellness Logo" 
         className="w-full h-full object-cover"
       />
@@ -348,27 +352,29 @@ export default function Dashboard() {
         </div>
       )}
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12">
+    <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-12">
         {/* Hero */}
-        <div className="relative rounded-3xl bg-gradient-to-br from-pink-100 to-purple-100 p-6 flex items-center justify-between gap-4 mb-5 mt-2 overflow-hidden">
-          <button className="absolute top-5 right-6 bg-white/90 rounded-full px-4 py-1.5 text-xs font-semibold text-purple-700 shadow-sm flex items-center gap-1.5">
+        <div className="relative rounded-3xl mb-5 mt-2 overflow-hidden h-[220px] sm:h-[260px]">
+          <img
+            src="/assets/dashboard.jpg"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <button className="absolute top-5 right-6 bg-white/90 rounded-full px-4 py-1.5 text-xs font-semibold text-purple-700 shadow-sm flex items-center gap-1.5 z-10">
             <User size={14} /> Edit Profile
           </button>
-          <WomanIllustration />
-          <div className="flex-1 min-w-0 pt-6 sm:pt-0">
-            <h1 className="font-serif text-2xl sm:text-3xl font-semibold text-purple-900 mb-3 flex items-center gap-2 flex-wrap">
-              Good Morning, <span className="text-pink-500">{userName}!</span> <Sun size={26} className="text-amber-400" />
+          <div className="absolute inset-0 flex flex-col justify-center pl-[38%] sm:pl-[32%] pr-6 z-10">
+            <h1 className="font-serif text-xl sm:text-3xl font-semibold text-purple-900 mb-2 sm:mb-3 flex items-center gap-2 flex-wrap">
+              Good Morning, <span className="text-pink-500">{userName}!</span> <Sun size={22} className="text-amber-400" />
             </h1>
-            <span className="inline-block bg-white rounded-full px-4 py-1.5 text-sm font-semibold text-purple-800 mb-3">
+            <span className="inline-block bg-white rounded-full px-4 py-1.5 text-xs sm:text-sm font-semibold text-purple-800 mb-2 sm:mb-3 w-fit">
               Stage: <span className="text-pink-500">Perimenopause</span>
             </span>
-            <p className="text-sm text-purple-700/80 leading-snug max-w-sm">
+            <p className="text-xs sm:text-sm text-purple-700/80 leading-snug max-w-sm">
               You're on your wellness journey and every small step counts.
             </p>
           </div>
-          <FlowerDecoration />
         </div>
-
         {/* Daily Log + Health Snapshot */}
         <div className="grid lg:grid-cols-2 gap-5 mb-5">
           <div className="bg-white rounded-3xl p-6 shadow-sm border border-pink-100">
