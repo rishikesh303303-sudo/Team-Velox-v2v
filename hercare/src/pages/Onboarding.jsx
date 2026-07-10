@@ -1,11 +1,20 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 /**
  * HerWellness — Onboarding
  * React + Tailwind CSS port of the original static HTML/CSS/JS version.
- * All copy, steps, scoring logic, and animations are unchanged.
- * UPDATED: Age select now includes an "Other (Enter manually)" option
- * that reveals a free-text/number input for custom age entry.
+ *
+ * UPDATED:
+ * - Age select supports a custom "Other (Enter manually)" input.
+ * - "Get My Results" now triggers a real API call to the backend
+ *   (POST /api/analyze) which calls Groq and returns an age-bracket-aware
+ *   stage, score, tagWord, and personalized insight.
+ * - AnalyzingStep runs the fake progress animation AND waits for the
+ *   real API response before moving on to Results.
+ * - ResultsStep now renders whatever the AI/backend returned instead of
+ *   computing the score locally.
  */
 
 const FONT_STYLE = `
@@ -91,10 +100,14 @@ function formatDate(d) {
 }
 
 export default function App() {
+  
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState("next");
   const [animClass, setAnimClass] = useState("active");
   const [toastMsg, setToastMsg] = useState(null);
+
+  // Holds whatever the backend /api/analyze returns: { ageGroup, stage, score, tagWord, insight }
+  const [aiResult, setAiResult] = useState(null);
 
   const [answers, setAnswers] = useState({
     age: "38 years",
@@ -219,15 +232,30 @@ export default function App() {
           </StepCard>
 
           <StepCard visible={stepName === "5"} animClass={animClass}>
-            <ReviewStep answers={answers} onBack={goBack} onJump={jumpTo} onGetResults={() => goToIndex(STEPS.indexOf("analyzing"), "next")} />
+            <ReviewStep
+              answers={answers}
+              onBack={goBack}
+              onJump={jumpTo}
+              onGetResults={() => goToIndex(STEPS.indexOf("analyzing"), "next")}
+            />
           </StepCard>
 
           <StepCard visible={stepName === "analyzing"} animClass={animClass}>
-            <AnalyzingStep active={stepName === "analyzing"} onDone={() => goToIndex(STEPS.indexOf("results"), "next")} />
+            <AnalyzingStep
+              active={stepName === "analyzing"}
+              answers={answers}
+              onResult={(data) => setAiResult(data)}
+              onDone={() => goToIndex(STEPS.indexOf("results"), "next")}
+            />
           </StepCard>
 
           <StepCard visible={stepName === "results"} animClass={animClass}>
-            <ResultsStep active={stepName === "results"} answers={answers} onCta={() => showToast("Generating your care plan...")} />
+            <ResultsStep
+              active={stepName === "results"}
+              answers={answers}
+              aiResult={aiResult}
+              onCta={() => showToast("Generating your care plan...")}
+            />
           </StepCard>
         </div>
 
@@ -436,7 +464,7 @@ function Step1({ answers, setAnswers, onBack, onNext, onSave, valid }) {
           type="number"
           inputMode="numeric"
           placeholder="Enter your age"
-          min="10"
+          min="15"
           max="100"
           value={answers.age.replace(" years", "")}
           onChange={handleCustomAgeChange}
@@ -721,7 +749,7 @@ function ReviewStep({ answers, onBack, onJump, onGetResults }) {
 
 /* ---------------- Analyzing ---------------- */
 
-function AnalyzingStep({ active, onDone }) {
+function AnalyzingStep({ active, answers, onDone, onResult }) {
   const [doneCount, setDoneCount] = useState(0);
   const [activeIdx, setActiveIdx] = useState(-1);
   const timerRef = useRef(null);
@@ -731,6 +759,31 @@ function AnalyzingStep({ active, onDone }) {
     setDoneCount(0);
     setActiveIdx(-1);
     let i = 0;
+
+    // Kick off the real API call in parallel with the fake progress animation
+    let apiDone = false;
+    let apiData = null;
+    let apiFailed = false;
+
+    fetch("/api/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ answers }),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data && data.error) {
+          apiFailed = true;
+        } else {
+          apiData = data;
+        }
+        apiDone = true;
+      })
+      .catch(() => {
+        apiFailed = true;
+        apiDone = true;
+      });
+
     function step() {
       setActiveIdx(i);
       if (i > 0) setDoneCount(i);
@@ -739,7 +792,17 @@ function AnalyzingStep({ active, onDone }) {
         timerRef.current = setTimeout(step, 700);
       } else {
         setDoneCount(TASKS.length);
-        timerRef.current = setTimeout(onDone, 500);
+        // Wait for the real API response before moving to Results,
+        // but don't let the fake animation finish before it's ready either.
+        function waitForApi() {
+          if (apiDone) {
+            onResult(apiFailed ? null : apiData);
+            timerRef.current = setTimeout(onDone, 400);
+          } else {
+            timerRef.current = setTimeout(waitForApi, 300);
+          }
+        }
+        waitForApi();
       }
     }
     step();
@@ -788,56 +851,47 @@ function AnalyzingStep({ active, onDone }) {
 
 /* ---------------- Results ---------------- */
 
-function ResultsStep({ active, answers, onCta }) {
-  const [score, setScore] = useState(0);
+function ResultsStep({ active, answers, aiResult, onCta }) {
+   const navigate = useNavigate();
   const [displayNum, setDisplayNum] = useState(0);
   const [arcOffset, setArcOffset] = useState(251);
   const rafRef = useRef(null);
 
-  const stage = (() => {
-    if (score >= 65) return "Late Perimenopause";
-    if (score >= 45) return "Early Perimenopause";
-    if (score >= 25) return "Pre-Menopause Transition";
-    return "Pre-Menopause";
-  })();
+  const hasResult = !!aiResult;
+  const stage = aiResult?.stage || "—";
+  const ageGroup = aiResult?.ageGroup;
+  const score = aiResult?.score ?? 0;
+  const tagWord = aiResult?.tagWord || "—";
+  const insightText =
+    aiResult?.insight ||
+    "We couldn't generate a personalized insight right now. Please try again in a moment, or consult a doctor for a full evaluation.";
 
-  const tagWord = score >= 65 ? "High" : score >= 35 ? "Moderate" : "Mild";
+  // Heading changes tone depending on the age group so we're not implying
+  // menopause/perimenopause for younger users.
+  const headingLabel =
+    ageGroup === "Teen" || ageGroup === "Reproductive"
+      ? "Your current cycle health status is"
+      : "You are currently in";
 
   useEffect(() => {
     if (!active) return;
 
-    let s = 30;
-    s += answers.symptoms.length * 6;
-    if (answers.severity === "Moderate") s += 12;
-    if (answers.severity === "Severe") s += 24;
-    if (answers.cycle === "Irregular") s += 8;
-    if (answers.cycle === "Missed 3–6 months") s += 14;
-    if (answers.cycle === "No period for 12+ months") s += 20;
-    s = Math.min(100, s);
-    setScore(s);
-
     const circumference = 251;
     requestAnimationFrame(() => {
-      setArcOffset(circumference - circumference * (s / 100));
+      setArcOffset(circumference - circumference * (score / 100));
     });
 
     const dur = 1200;
     const startTime = performance.now();
     function tick(t) {
       const p = Math.min(1, (t - startTime) / dur);
-      setDisplayNum(Math.round(p * s));
+      setDisplayNum(Math.round(p * score));
       if (p < 1) rafRef.current = requestAnimationFrame(tick);
     }
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active]);
-
-  const insightText = `Based on your age, ${
-    answers.cycle ? answers.cycle.toLowerCase() : "irregular"
-  } cycles, and symptoms like ${
-    answers.symptoms.slice(0, 2).join(" and ").toLowerCase() || "your reported symptoms"
-  }, your body shows signs of the ${stage.toLowerCase()} stage. This is a natural phase — with the right care, you can feel your best every day. Early support can help manage symptoms and improve your long-term well-being.`;
+  }, [active, score]);
 
   return (
     <>
@@ -850,8 +904,10 @@ function ResultsStep({ active, answers, onCta }) {
         className="rounded-[20px] p-5 px-[22px] mb-5 relative overflow-hidden"
         style={{ background: "linear-gradient(120deg,#fde3ef,#f3e3fb)" }}
       >
-        <div className="text-[13px] font-bold text-purple-600 mb-0.5">You are currently in</div>
-        <h3 className="font-display text-[23px] m-0 mb-2.5 text-pink-600">{stage}</h3>
+        <div className="text-[13px] font-bold text-purple-600 mb-0.5">{headingLabel}</div>
+        <h3 className="font-display text-[23px] m-0 mb-2.5 text-pink-600">
+          {hasResult ? stage : "Loading…"}
+        </h3>
         <span className="inline-block bg-white py-1.5 px-3.5 rounded-full text-[11.5px] font-bold text-purple-600">
           Stage Detected
         </span>
@@ -896,10 +952,13 @@ function ResultsStep({ active, answers, onCta }) {
         <div>{insightText}</div>
       </div>
 
-      <PrimaryBtn onClick={onCta} className="w-full justify-center py-[15px] text-[15.5px] rounded-2xl">
-        Generate My Personalized Care Plan →
-      </PrimaryBtn>
-      <div className="text-xs text-center text-[#7c6a83] mt-3">🔒 Your data is private and secure</div>
+     <PrimaryBtn
+  onClick={() => navigate("/care-plan", { state: { answers, aiResult } })}
+  className="w-full justify-center py-[15px] text-[15.5px] rounded-2xl"
+>
+  Generate My Personalized Care Plan →
+</PrimaryBtn>
+<div className="text-xs text-center text-[#7c6a83] mt-3">🔒 Your data is private and secure</div>
     </>
   );
 }
